@@ -1,0 +1,30 @@
+{
+  "name": "The-bachelor-the-api",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/joshuacoyne/The-Bachelor-The-API.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/joshuacoyne/The-Bachelor-The-API/issues"
+  },
+  "homepage": "https://github.com/joshuacoyne/The-Bachelor-The-API#readme",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "connect-mongo": "^2.0.3",
+    "cors": "^2.8.5",
+    "express": "^4.16.4",
+    "express-session": "^1.16.1",
+    "helmet": "^3.18.0",
+    "mongoose": "^5.5.8"
+  }
+}
