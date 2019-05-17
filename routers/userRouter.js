@@ -3,6 +3,8 @@ const router = express.Router();
 const mongoose = require('mongoose');
 const userSchema = require('../schemas/userSchema');
 const User = mongoose.model('User', userSchema);
+const constestantSchema = require('../schemas/contestantSchema');
+const Contestant = mongoose.model('Contestant', constestantSchema);
 
 // authenticate that the user is signed in
 function authenticate(req, res, next) {
@@ -131,4 +133,20 @@ router.delete('/delete', authenticate, (req, res) => {
     });
 });
 
+router.put('/makePicks', authenticate, (req, res) => {
+    const { userId } = req.session;
+    const { weeklyPicks, squadPicks } = req.body;
+    User
+    .findById('userId')
+    .then(user => {
+        if (weeklyPicks) {
+            user.weeklyPicks.push(weeklyPicks);
+        }
+
+        if (squadPicks) {
+            user.squadPicks = squadPicks;
+        }
+
+    });
+});
 module.exports = router;

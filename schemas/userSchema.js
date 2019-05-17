@@ -54,7 +54,9 @@ const userSchema = new Schema(
                 ]
             }
         ],
-        weeklyPicksScores: [Number]
+        weeklyPicksScores: [ Number ],
+        totalScore: [ Number ],
+        scoreUpdatedOn: [ Date ]
     }
 )
 
@@ -71,6 +73,12 @@ userSchema.pre('save', function(next) {
         });
     } else {
         next();
+    }
+});
+
+userSchema.pre('save', function() {
+    if (this.isModified('totalScore')) {
+        this.scoreUpdatedOn.push(Date.now());
     }
 });
 

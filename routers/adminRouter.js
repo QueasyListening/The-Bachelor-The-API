@@ -2,7 +2,11 @@ const express = require('express');
 const router = express.Router();
 const config = require('../config');
 
-const Contestant = require('../schemas/contestantSchema');
+const contestantSchema = require('../schemas/contestantSchema');
+const Contestant = mongoose.model('Contestant', contestantSchema);
+const pointsForFirstRose = 5;
+const pointsForLastRose = 5;
+const pointsForRosePick = 1;
 
 function authenticateAdmin(req, res, next) {
     if (req.body.username === config.adminUserName && req.body.password === config.adminPassword)  {
@@ -67,7 +71,32 @@ router.put("/updateResults", authenticateAdmin, (req, res) => {
                 return contestant;
             });
 
-            // Go through users and update scores
+            User
+            .find()
+            .then(users => {
+                const noPick = { weekNumber, recievedRose: [] };
+
+                let updatedUsers = users.map(user => {
+                    // Check to make sure picks have been entered and enter dummy pick if not
+                    if (user.weeklyPicks[user.weeklyPicks.length - 1].weekNumber !== weekNumber) {
+                        user.weeklyPicks.push(noPick);
+                    }
+                    
+                    // Calculate weekly picks score
+                    let weeklyScore = 0;
+                    if (user.firstRose && user.firstRose === firstRose) {
+                        weeklyScore += pointsForFirstRose;
+                    }
+                    if (user.lastRose._id && user.lastRose._id === lastRose._id) {
+                        weeklyScore += pointsForLastRose;
+                    }
+                    user.recievedRose.forEach(pick => {
+                        if (recievedRose.includes(pick)) {
+                            weeklyScore += pointsForRosePick;
+                        }
+                    });
+                });
+            });
         })
         .catch(error => {
             res.send(error);

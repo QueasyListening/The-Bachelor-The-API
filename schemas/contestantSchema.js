@@ -32,4 +32,4 @@ const constestantSchema = new Schema(
     }
 )
 
-module.exports = mongoose.model('Contestant', constestantSchema);
+module.exports = constestantSchema;
